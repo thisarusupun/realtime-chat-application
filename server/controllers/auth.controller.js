@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 // signup endpoint
 export const signup = async (req, res) => {
@@ -36,6 +37,9 @@ export const signup = async (req, res) => {
     });
 
     if (newUser) {
+      // generate jwt token
+      generateTokenAndSetCookie(newUser._id, res);
+
       await newUser.save();
       res.status(201).json({
         _id: newUser._id,
