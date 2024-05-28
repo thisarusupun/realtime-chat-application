@@ -56,7 +56,7 @@ export const signup = async (req, res) => {
   }
 };
 
-// login end point
+// login endpoint
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -85,6 +85,13 @@ export const login = async (req, res) => {
   }
 };
 
-export const logout = (req, res) => {
-  res.send("Logout user");
+// logout endpoint
+export const logout = async (req, res) => {
+  try {
+    res.cookie("jwt", "", { maxAge: 0 });
+    res.status(200).json({ error: "Logout successfully" });
+  } catch (error) {
+    console.log("Error in logout controler", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
