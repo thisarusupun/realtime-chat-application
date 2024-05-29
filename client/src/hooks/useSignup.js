@@ -1,9 +1,11 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { useAuthContext } from "../context/AuthContext";
 
 const useSignup = () => {
   const [loading, setLoading] = useState(false);
+  const { setAuthUser } = useAuthContext();
 
   const signup = async ({
     fullName,
@@ -22,6 +24,8 @@ const useSignup = () => {
 
     if (!success) return;
 
+    setLoading(true);
+
     try {
       const res = await axios.post("/api/auth/signup", {
         fullName,
@@ -36,6 +40,10 @@ const useSignup = () => {
       if (data.error) {
         throw new Error(data.error);
       }
+
+      localStorage.setItem("authuser", JSON.stringify(data));
+
+      setAuthUser(data);
     } catch (error) {
       toast.error(error.message);
     } finally {
