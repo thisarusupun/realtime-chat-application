@@ -1,10 +1,10 @@
-import React from "react";
+import Login from "./pages/login/Login";
 
 const App = () => {
   return (
-    <>
-      <h1>Hello World</h1>
-    </>
+    <div className="p-4 h-screen flex items-center justify-center">
+      <Login />
+    </div>
   );
 };
 
